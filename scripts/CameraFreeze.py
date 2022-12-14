@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import threading
-import time
+import time, sys, os
 import cv2
 import pyvirtualcam
 from paho.mqtt import client as mqtt_client
@@ -50,15 +50,21 @@ def onMessage(client, userdata, msg):
         status = int(data) #1 拍； 2定
         if (status == 0):
             print("摄像头已被冻结：(X)")
-            print("┏┳┳┳┳┳┳┳┳┓")
-            print("┣╋╋╋╋╋╋╋╋┫")
-            print("┗┻┻┻┻┻┻┻┻┛")
+            print("┏┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳┓")
+            print("┣╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┫")
+            print("┣╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┫")
+            print("┣╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┫")
+            print("┣╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┫")
+            print("┗┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻┛")
             mqttclient.publish(topic_resp, "0".encode('UTF8'))
         else:
             print("摄像头已被解冻：( )")
-            print("┏━━━━━━━━┓")
-            print("┃        ┃")
-            print("┗━━━━━━━━┛")
+            print("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓")
+            print("┃                                ┃")
+            print("┃                                ┃")
+            print("┃                                ┃")
+            print("┃                                ┃")
+            print("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛")
             mqttclient.publish(topic_resp, "1".encode('UTF8'))
     except:
         print(f"{data}不是数字")
@@ -76,7 +82,9 @@ def receiveMqttCtrl():
 def switchByEnter():
     global status
     while True:
-        input(f"Press Enter to switch, now({status})")
+        ipt = input(f"Press Enter to switch, now({status})")
+        if ipt == 'q':
+            os._exit(0)
         status = not status
 
 
